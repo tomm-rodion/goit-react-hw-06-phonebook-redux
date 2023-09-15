@@ -1,14 +1,26 @@
 import { createStore } from 'redux';
 import { devToolsEnhancer } from '@redux-devtools/extension';
 import { nanoid } from 'nanoid';
-const initialState = {
-  contacts: [
+
+const getInitialContacts = () => {
+  const savedUpContacts = localStorage.getItem('contacts');
+  if (savedUpContacts !== null) {
+    const parsContacts = JSON.parse(savedUpContacts);
+    return parsContacts;
+  }
+  return [
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ],
+  ];
 };
+
+const initialState = {
+  contacts: getInitialContacts(),
+  filter: '',
+};
+
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'contacts/addContact':
@@ -23,6 +35,27 @@ const rootReducer = (state = initialState, action) => {
           contact => contact.id !== action.payload
         ),
       };
+    case 'filter/foundContacts':
+      if (action.payload === '') {
+        //Якщо поле пошуку порожнє, повертаємо початковий список контактів
+        return {
+          ...state,
+          contacts: getInitialContacts(),
+          filter: '',
+        };
+      } else {
+        // Якщо поле пошуку не порожнє, фільтруємо контакти
+        return {
+          ...state,
+          contacts: state.contacts.filter(contact =>
+            contact.name
+              .toLowerCase()
+              .includes(action.payload.name.toLowerCase())
+          ),
+          filter: action.payload.name,
+        };
+      }
+
     default:
       return state;
   }
@@ -42,5 +75,12 @@ export const deleteContact = id => {
   return {
     type: 'contacts/deleteContact',
     payload: id,
+  };
+};
+
+export const foundContacts = name => {
+  return {
+    type: 'filter/foundContacts',
+    payload: name,
   };
 };
