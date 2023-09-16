@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-06-phonebook",
+  "name": "goit-react-hw-06-phonebook-redux",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://tomm-rodion.github.io/goit-react-hw-06-phonebook/",
+  "homepage": "https://tomm-rodion.github.io/goit-react-hw-06-phonebook-redux/",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
