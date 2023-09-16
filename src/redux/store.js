@@ -36,26 +36,32 @@ const rootReducer = (state = initialState, action) => {
         ),
       };
     case 'filter/foundContacts':
-      if (action.payload === '') {
-        //Якщо поле пошуку порожнє, повертаємо початковий список контактів
-        return {
-          ...state,
-          contacts: getInitialContacts(),
-          filter: '',
-        };
+      if (typeof action.payload === 'string') {
+        // Перевірка, чи action.payload є рядком
+        if (action.payload === '') {
+          // Якщо поле пошуку порожнє, повертаємо початковий список контактів
+          return {
+            ...state,
+            contacts: getInitialContacts(),
+            filter: '',
+          };
+        } else {
+          // Якщо поле пошуку не порожнє, фільтруємо контакти
+          return {
+            ...state,
+            contacts: state.contacts.filter(contact =>
+              contact.name.toLowerCase().includes(action.payload.toLowerCase())
+            ),
+            filter: action.payload,
+          };
+        }
       } else {
-        // Якщо поле пошуку не порожнє, фільтруємо контакти
+        // Якщо action.payload не є '', просто оновлюємо filter
         return {
           ...state,
-          contacts: state.contacts.filter(contact =>
-            contact.name
-              .toLowerCase()
-              .includes(action.payload.name.toLowerCase())
-          ),
-          filter: action.payload.name,
+          filter: action.payload,
         };
       }
-
     default:
       return state;
   }
@@ -79,6 +85,7 @@ export const deleteContact = id => {
 };
 
 export const foundContacts = name => {
+  console.log('action.payload:', name);
   return {
     type: 'filter/foundContacts',
     payload: name,

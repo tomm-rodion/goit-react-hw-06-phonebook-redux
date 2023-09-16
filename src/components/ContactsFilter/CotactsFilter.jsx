@@ -7,7 +7,8 @@ export const ContactsFilter = () => {
   const dispatch = useDispatch();
 
   const onChange = e => {
-    return dispatch(foundContacts({ name: e.target.value }));
+    const searchQuery = e.target.value;
+    return dispatch(foundContacts(searchQuery));
   };
   return (
     <>
