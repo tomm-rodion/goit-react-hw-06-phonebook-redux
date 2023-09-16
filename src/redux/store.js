@@ -16,6 +16,10 @@ const getInitialContacts = () => {
   ];
 };
 
+const updateLocalStorage = contacts => {
+  localStorage.setItem('contacts', JSON.stringify(contacts));
+};
+
 const initialState = {
   contacts: getInitialContacts(),
   filter: '',
@@ -24,16 +28,20 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'contacts/addContact':
+      const updatedContactsAdd = [action.payload, ...state.contacts];
+      updateLocalStorage(updatedContactsAdd);
       return {
         ...state,
-        contacts: [action.payload, ...state.contacts],
+        contacts: updatedContactsAdd,
       };
     case 'contacts/deleteContact':
+      const updetedDeleteContact = state.contacts.filter(
+        contact => contact.id !== action.payload
+      );
+      updateLocalStorage(updetedDeleteContact);
       return {
         ...state,
-        contacts: state.contacts.filter(
-          contact => contact.id !== action.payload
-        ),
+        contacts: updetedDeleteContact,
       };
     case 'filter/foundContacts':
       if (typeof action.payload === 'string') {
@@ -85,7 +93,6 @@ export const deleteContact = id => {
 };
 
 export const foundContacts = name => {
-  console.log('action.payload:', name);
   return {
     type: 'filter/foundContacts',
     payload: name,

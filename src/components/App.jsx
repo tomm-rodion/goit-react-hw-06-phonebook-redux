@@ -7,16 +7,8 @@ import {
   TitlePhoneBook,
   TitleContacts,
 } from './App.styled';
-// import { useEffect } from 'react';
-// import { useSelector } from 'react-redux';
 
 export const App = () => {
-  // const contacts = useSelector(state => state.contacts);
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
-
   return (
     <Wrapper>
       <Container>
