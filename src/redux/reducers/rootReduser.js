@@ -1,4 +1,5 @@
-import { getInitialContacts, updateLocalStorage } from 'utils/initialState';
+import { TYPES } from 'redux/contacts/contacts-types';
+import { getInitialContacts } from 'utils/initialState';
 
 const initialState = {
   contacts: getInitialContacts(),
@@ -7,23 +8,21 @@ const initialState = {
 
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'contacts/addContact':
+    case TYPES.ADD_CONTACTS:
       const updatedContactsAdd = [action.payload, ...state.contacts];
-      updateLocalStorage(updatedContactsAdd);
       return {
         ...state,
         contacts: updatedContactsAdd,
       };
-    case 'contacts/deleteContact':
+    case TYPES.DELETE_CONTACTS:
       const updetedDeleteContact = state.contacts.filter(
         contact => contact.id !== action.payload
       );
-      updateLocalStorage(updetedDeleteContact);
       return {
         ...state,
         contacts: updetedDeleteContact,
       };
-    case 'filter/foundContacts':
+    case TYPES.FOUND_CONTACTS:
       return {
         ...state,
         filter: action.payload,

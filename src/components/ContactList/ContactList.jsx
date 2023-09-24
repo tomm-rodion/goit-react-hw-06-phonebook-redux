@@ -1,11 +1,17 @@
 import { ContactItem } from 'components/ContactItem/ContactItem';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors/selectors';
+import { getContacts } from 'redux/contacts/contacts-seltctors';
+import { getFilter } from 'redux/contacts/contacts-seltctors';
+import { updateLocalStorage } from 'utils/initialState';
 
 export const ContactList = () => {
   const allContacts = useSelector(getContacts);
-
   const valueFilter = useSelector(getFilter);
+
+  useEffect(() => {
+    updateLocalStorage(allContacts);
+  }, [allContacts]);
 
   const contactsList = () => {
     if (valueFilter.trim() !== '') {

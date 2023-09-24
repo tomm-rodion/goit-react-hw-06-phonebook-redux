@@ -7,7 +7,7 @@ import {
   ButtonAddContact,
 } from './ContactsForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/actions/actions';
+import { addContact } from 'redux/contacts/contacts-actions';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
